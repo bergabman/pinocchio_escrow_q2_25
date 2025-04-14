@@ -41,7 +41,7 @@ impl<'a> TakeContext<'a> for &[AccountInfo] {
             from: taker_ata_b,
             to: maker_ata_b,
             authority: taker,
-            amount: u64::from_be_bytes(escrow_data.amount),
+            amount: u64::from_le_bytes(escrow_data.amount),
         }
         .invoke()?;
 
@@ -49,7 +49,7 @@ impl<'a> TakeContext<'a> for &[AccountInfo] {
             from: vault,
             to: taker_ata_a,
             authority: escrow,
-            amount: u64::from_be_bytes(escrow_data.receive),
+            amount: u64::from_le_bytes(escrow_data.receive),
         }
         .invoke_signed(&[signer])?;
 
