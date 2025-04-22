@@ -15,4 +15,17 @@ pub struct Escrow {
 
 impl Escrow {
     pub const LEN: usize = core::mem::size_of::<Escrow>();
+
+    pub fn set_inner(&mut self, new_self: Self) {
+
+        self.amount = new_self.amount;
+        self.seed = new_self.seed;
+        self.maker = new_self.maker;
+        self.mint_a = new_self.mint_a;
+        self.mint_b = new_self.mint_b;
+        self.amount = new_self.amount;
+        self.receive = new_self.receive;
+        self.bump = new_self.bump;
+        
+    }
 }

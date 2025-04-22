@@ -1,3 +1,5 @@
+use core::f64::consts::E;
+
 use bytemuck::{Pod, Zeroable};
 use pinocchio::{
     account_info::AccountInfo,
@@ -78,11 +80,22 @@ impl<'a> MakeContext<'a> for &[AccountInfo] {
         }
         .invoke_signed(&[signer])?;
 
+        // let mut binding = escrow.try_borrow_mut_data()?;
         let mut escrow_data =
-            *bytemuck::try_from_bytes_mut::<Escrow>(&mut escrow.try_borrow_mut_data()?)
+           *bytemuck::try_from_bytes_mut::<Escrow>(&mut escrow.try_borrow_mut_data()?)
                 .map_err(|_| ProgramError::InvalidAccountData)?;
 
-        escrow_data.clone_from(&Escrow {
+        // escrow_data.clone_from(&Escrow {
+        //     seed: args.seed,
+        //     maker: *maker.key(),
+        //     mint_a: *mint_a.key(),
+        //     mint_b: *mint_b.key(),
+        //     amount: args.amount,
+        //     receive: args.receive,
+        //     bump: args.bump,
+        // });
+
+        escrow_data.set_inner(Escrow { 
             seed: args.seed,
             maker: *maker.key(),
             mint_a: *mint_a.key(),
@@ -91,6 +104,17 @@ impl<'a> MakeContext<'a> for &[AccountInfo] {
             receive: args.receive,
             bump: args.bump,
         });
+
+        // escrow_data.seed = args.seed;
+        // escrow_data = &mut Escrow {
+        //     seed: args.seed,
+        //     maker: *maker.key(),
+        //     mint_a: *mint_a.key(),
+        //     mint_b: *mint_b.key(),
+        //     amount: args.amount,
+        //     receive: args.receive,
+        //     bump: args.bump,
+        // };
 
         pinocchio_token::instructions::Transfer {
             from: maker_ata_a,

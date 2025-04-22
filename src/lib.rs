@@ -15,8 +15,8 @@ mod state;
 
 entrypoint!(process_instruction);
 
-// #[cfg(target_os = "solana")]
-// pinocchio::nostd_panic_handler!();
+#[cfg(target_os = "solana")]
+pinocchio::nostd_panic_handler!();
 
 pinocchio_pubkey::declare_id!("4ibrEMW5F6hKnkW4jVedswYv6H6VtwPN6ar6dvXDN1nT");
 
